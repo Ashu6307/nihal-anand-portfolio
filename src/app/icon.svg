@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NA portfolio mark">
+  <rect width="64" height="64" rx="15" fill="#10241e"/>
+  <rect x="2" y="2" width="60" height="60" rx="13" fill="none" stroke="#56b98a" stroke-width="3"/>
+  <text x="32" y="42" fill="#fff1d0" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="800" letter-spacing="-2.8" text-anchor="middle">NA</text>
+</svg>

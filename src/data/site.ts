@@ -59,27 +59,27 @@ export const site = {
 
 export const hiringProcess: ProcessStep[] = [
   {
-    title: "Requirement understanding",
+    title: "Understand requirement",
     description: "Clarify the role, business context, location, and hiring priorities.",
   },
   {
-    title: "Hiring criteria",
+    title: "Define hiring criteria",
     description: "Shape practical expectations around experience, capability, and fit.",
   },
   {
-    title: "Candidate sourcing",
+    title: "Source candidates",
     description: "Build relevant talent pipelines across appropriate sourcing channels.",
   },
   {
-    title: "Profile screening",
+    title: "Screen profiles",
     description: "Review candidate relevance before profiles move into discussion.",
   },
   {
-    title: "Interview coordination",
+    title: "Coordinate interviews",
     description: "Keep scheduling, communication, and follow-ups moving clearly.",
   },
   {
-    title: "Closure support",
+    title: "Support closure",
     description: "Assist with final coordination and communication around next steps.",
   },
 ];

@@ -21,6 +21,30 @@ export const metadata: Metadata = {
   authors: [{ name: profile.name, url: profile.linkedin }],
   creator: profile.name,
   category: "Recruitment consulting",
+  icons: {
+    icon: [
+      { url: "/favicon.ico?v=2", sizes: "any" },
+      { url: "/icon.svg?v=2", type: "image/svg+xml" },
+      {
+        url: "/favicon-32x32.png?v=2",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        url: "/favicon-16x16.png?v=2",
+        sizes: "16x16",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/favicon.ico?v=2",
+    apple: [
+      {
+        url: "/apple-touch-icon.png?v=2",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
 };
 
 const structuredData = [
@@ -77,14 +101,52 @@ const structuredData = [
 
 const themeScript = `
   (() => {
+    const root = document.documentElement;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const navigationEntry = performance.getEntriesByType('navigation')[0];
+    const navigationType = navigationEntry && navigationEntry.type;
+    let sameOriginReferrer = false;
+
+    try {
+      sameOriginReferrer = Boolean(document.referrer) &&
+        new URL(document.referrer).origin === location.origin;
+    } catch (_) {}
+
+    const routeVisit = navigationType === 'back_forward' ||
+      (navigationType === 'navigate' && sameOriginReferrer);
+
+    if (reducedMotion) {
+      root.classList.add('app-ready');
+    } else {
+      root.classList.add('loader-active');
+      if (routeVisit) root.classList.add('route-loading');
+      root.dataset.loaderStarted = String(performance.now());
+    }
+
+    let released = false;
+    const releaseLoader = () => {
+      if (released || !root.dataset.loaderStarted) return;
+      released = true;
+      root.classList.remove('loader-active', 'route-loading');
+      root.classList.add('app-ready');
+      delete root.dataset.loaderStarted;
+      window.dispatchEvent(new Event('nihal-loader-complete'));
+    };
+
+    window.setTimeout(
+      releaseLoader,
+      reducedMotion ? 0 : (routeVisit ? 600 : 1150),
+    );
+    window.setTimeout(releaseLoader, routeVisit ? 1300 : 1600);
+
     try {
       const stored = localStorage.getItem('nihal-theme');
       const theme = stored === 'light' || stored === 'dark'
         ? stored
         : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      document.documentElement.dataset.theme = theme;
+      root.dataset.theme = theme;
     } catch (_) {
-      document.documentElement.dataset.theme = 'light';
+      root.dataset.theme = 'light';
     }
   })();
 `;
@@ -105,7 +167,10 @@ export default function RootLayout({
       </head>
       <body>
         <noscript>
-          <style>{`.site-loader { display: none !important; }`}</style>
+          <style>{`
+            .site-loader { display: none !important; }
+            .site-header, main, .site-footer { opacity: 1 !important; visibility: visible !important; transform: none !important; }
+          `}</style>
         </noscript>
         <SiteLoader />
         <MotionObserver />

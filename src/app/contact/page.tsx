@@ -82,7 +82,7 @@ export default function ContactPage() {
               </span>
               <span className="contact-option__content">
                 <small>Professional updates</small>
-                <strong>WhatsApp Channel</strong>
+                <strong>Follow WhatsApp Channel</strong>
                 <p>Follow recruitment, hiring, and professional updates through the official channel.</p>
               </span>
               <Icon name="arrow" size={22} />
